@@ -32,36 +32,45 @@ All state is file-driven — JSONL sessions, JSON configs, Markdown files. No da
 | **Trader**       | Executes trades on target platforms (Robinhood, Coinbase, IBKR, Schwab, Binance, and more).                                                                                                                                                                                  |
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│                         Your Machine                            │
-│                                                                 │
-│  ┌──────────────┐    ┌─────────────────┐    ┌───────────────┐  │
-│  │  Robinhood   │    │  AgentRuntime   │    │   Channels    │  │
-│  │  Coinbase    │───▶│  Orchestrator   │───▶│  Web / MCP    │  │
-│  │  IBKR/Schwab │    │                 │    │  ACP / Tg     │  │
-│  │  Binance/... │    └────────┬────────┘    └───────────────┘  │
-│  └──────────────┘             │                                 │
-│                   ┌───────────┼───────────┐                    │
-│                   ▼           ▼           ▼                    │
-│            ┌──────────┐ ┌──────────┐ ┌──────────┐             │
-│            │  Trader  │ │ Analyst  │ │   Risk   │             │
-│            │(execute) │ │          │ │ Manager  │             │
-│            └────┬─────┘ └────┬─────┘ └────┬─────┘             │
-│                 │            │            │                    │
-│                 ▼            ▼            ▼                    │
-│        PortfolioSnapshot  Signals     RiskReport               │
-│                 │            ▲            │                    │
-│                 └──────▶  Jintel  ◀───────┘                    │
-│                          (signals,                             │
-│                          news, sentiment)                      │
-│                               │                                │
-│                          Strategist                            │
-│                         (Brain + Memory)──▶ Insights + Alerts  │
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  Trust Layer: Vault │ Guard Pipeline │ PII │ Audit Log   │  │
-│  └──────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────┐
+│                              Your Machine                                │
+│                                                                          │
+│  ┌──────────────┐    ┌─────────────────┐    ┌───────────────┐           │
+│  │  Robinhood   │    │  AgentRuntime   │    │   Channels    │           │
+│  │  Coinbase    │───▶│  Orchestrator   │───▶│  Web / MCP    │           │
+│  │  IBKR/Schwab │    │                 │    │  ACP / Tg     │           │
+│  │  Binance/... │    └────────┬────────┘    └───────────────┘           │
+│  └──────────────┘             │                                          │
+│                   ┌───────────┼───────────┐                             │
+│                   ▼           ▼           ▼                             │
+│            ┌──────────┐ ┌──────────┐ ┌──────────┐                      │
+│            │  Trader  │ │ Analyst  │ │   Risk   │                      │
+│            │(execute) │ │          │ │ Manager  │                      │
+│            └────┬─────┘ └────┬─────┘ └────┬─────┘                      │
+│                 │            │            │                             │
+│                 ▼            ▼            ▼                             │
+│        PortfolioSnapshot  Signals     RiskReport                        │
+│                 │            ▲            │                             │
+│                 └──────▶  Jintel  ◀───────┘                             │
+│                          (intelligence                                   │
+│                           layer)                                         │
+│                              │                                           │
+│            ┌─────────────────┼─────────────────┐                        │
+│            ▼                 ▼                 ▼                        │
+│     ┌────────────┐   ┌────────────┐   ┌────────────┐                   │
+│     │   News &   │   │  Market &  │   │  Custom    │                   │
+│     │ Sentiment  │   │ Financials │   │  Sources   │                   │
+│     │  Feeds     │   │   APIs     │   │  (Sheets,  │                   │
+│     └────────────┘   └────────────┘   │  DBs, ...) │                   │
+│                                       └────────────┘                   │
+│                              │                                           │
+│                         Strategist                                       │
+│                        (Brain + Memory)──▶ Insights + Alerts             │
+│                                                                          │
+│  ┌───────────────────────────────────────────────────────────────────┐  │
+│  │  Trust Layer: Vault │ Guard Pipeline │ PII │ Audit Log            │  │
+│  └───────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## Security & Privacy
