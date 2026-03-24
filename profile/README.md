@@ -35,37 +35,45 @@ All state is file-driven — JSONL sessions, JSON configs, Markdown files. No da
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                              Your Machine                                │
 │                                                                          │
-│  ┌──────────────┐    ┌─────────────────┐    ┌───────────────┐           │
-│  │  Robinhood   │    │  AgentRuntime   │    │   Channels    │           │
-│  │  Coinbase    │───▶│  Orchestrator   │───▶│  Web / MCP    │           │
-│  │  IBKR/Schwab │    │                 │    │  ACP / Tg     │           │
-│  │  Binance/... │    └────────┬────────┘    └───────────────┘           │
-│  └──────────────┘             │                                          │
-│                   ┌───────────┼───────────┐                             │
-│                   ▼           ▼           ▼                             │
-│            ┌──────────┐ ┌──────────┐ ┌──────────┐                      │
-│            │  Trader  │ │ Analyst  │ │   Risk   │                      │
-│            │(execute) │ │          │ │ Manager  │                      │
-│            └────┬─────┘ └────┬─────┘ └────┬─────┘                      │
-│                 │            │            │                             │
-│                 ▼            ▼            ▼                             │
-│        PortfolioSnapshot  Signals     RiskReport                        │
-│                 │            ▲            │                             │
-│                 └──────▶  Jintel  ◀───────┘                             │
-│                          (intelligence                                   │
-│                           layer)                                         │
-│                              │                                           │
-│            ┌─────────────────┼─────────────────┐                        │
-│            ▼                 ▼                 ▼                        │
-│     ┌────────────┐   ┌────────────┐   ┌────────────┐                   │
-│     │   News &   │   │  Market &  │   │  Custom    │                   │
-│     │ Sentiment  │   │ Financials │   │  Sources   │                   │
-│     │  Feeds     │   │   APIs     │   │  (Sheets,  │                   │
-│     └────────────┘   └────────────┘   │  DBs, ...) │                   │
-│                                       └────────────┘                   │
-│                              │                                           │
-│                         Strategist                                       │
-│                        (Brain + Memory)──▶ Insights + Alerts             │
+│  ┌───────────────┐   ┌─────────────────┐   ┌───────────────┐           │
+│  │  Robinhood    │   │  AgentRuntime   │   │   Channels    │           │
+│  │  Coinbase     │──▶│  Orchestrator   │──▶│  Web / MCP    │           │
+│  │  IBKR/Schwab  │   │  (staged)      │   │  ACP / Tg     │           │
+│  │  Binance/...  │   └───────┬────────┘   └───────────────┘           │
+│  └───────────────┘           │                                          │
+│                              ▼                                          │
+│               ┌──────────────────────────────┐                          │
+│               │  STAGE 0 — Research Analyst  │                          │
+│               │  portfolio + signals + enrich │                         │
+│               └──────────────┬───────────────┘                          │
+│                              ▼                                          │
+│               ┌──────────────────────────────┐                          │
+│               │  STAGE 1 — parallel          │                          │
+│               │  ┌────────────┐ ┌──────────┐ │                          │
+│               │  │  Research  │ │   Risk   │ │                          │
+│               │  │  Analyst   │ │ Manager  │ │                          │
+│               │  └────────────┘ └──────────┘ │                          │
+│               └──────────────┬───────────────┘                          │
+│                              ▼                                          │
+│               ┌──────────────────────────────┐                          │
+│               │  STAGE 2 — Strategist        │                          │
+│               │  (Brain + Memory + Emotion)  │                          │
+│               │  synthesis → InsightReport   │                          │
+│               └──────────────┬───────────────┘                          │
+│                              ▼                                          │
+│                    ┌───────────────────┐                                 │
+│                    │      Jintel       │                                 │
+│                    │ (intelligence     │                                 │
+│                    │  layer)           │                                 │
+│                    └────────┬──────────┘                                 │
+│            ┌────────────────┼────────────────┐                          │
+│            ▼                ▼                ▼                          │
+│     ┌────────────┐  ┌────────────┐  ┌────────────┐                     │
+│     │  News &    │  │ Market &   │  │  Custom    │                     │
+│     │ Sentiment  │  │ Financials │  │  Sources   │                     │
+│     │  Feeds     │  │   APIs     │  │ (Sheets,   │                     │
+│     └────────────┘  └────────────┘  │  DBs, ...) │                     │
+│                                     └────────────┘                     │
 │                                                                          │
 │  ┌───────────────────────────────────────────────────────────────────┐  │
 │  │  Trust Layer: Vault │ Guard Pipeline │ PII │ Audit Log            │  │
