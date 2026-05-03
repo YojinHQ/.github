@@ -2,8 +2,6 @@
 
 [![Website](https://img.shields.io/badge/yojin.ai-website-blue)](https://yojin.ai/)
 [![X (Twitter)](https://img.shields.io/badge/@YojinHQ-black?logo=x)](https://x.com/YojinHQ)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D22.12-brightgreen)](https://nodejs.org)
 
 A local-first AI agent that connects to your investment accounts, delivers personalized intelligence, monitors your portfolio 24/7, and executes trades — across every platform you use.
 
@@ -20,7 +18,7 @@ Yojin is a multi-agent system built around a central **Orchestrator** that coord
 
 The **Orchestrator** is the entry point for every workflow — whether triggered by a user message, a scheduled digest, or a market event. It decides which agents to invoke, in what order or in parallel, and assembles their outputs into a coherent response or action.
 
-All state is file-driven — JSONL sessions, JSON configs, Markdown files. No database, no ORM, no containers.
+Everything runs on your machine. Your data stays in local files — no database, no cloud sync, no containers.
 
 ### Agents
 
@@ -38,7 +36,7 @@ All state is file-driven — JSONL sessions, JSON configs, Markdown files. No da
 │  ┌───────────────┐   ┌─────────────────┐   ┌───────────────┐           │
 │  │  Robinhood    │   │  AgentRuntime   │   │   Channels    │           │
 │  │  Coinbase     │──▶│  Orchestrator   │──▶│  Web / MCP    │           │
-│  │  IBKR/Schwab  │   │  (staged)      │   │  ACP / Tg     │           │
+│  │  IBKR/Schwab  │   │  (staged)      │   │  ACP / Slack  │           │
 │  │  Binance/...  │   └───────┬────────┘   └───────────────┘           │
 │  └───────────────┘           │                                          │
 │                              ▼                                          │
@@ -92,51 +90,19 @@ Your credentials, positions, and account details are stored and processed on you
 
 ## Quick Start
 
-Yojin runs locally on your computer. One command, no account needed.
-
-### Prerequisites
-
-- Node.js >= 22.12
-- pnpm 10+
-
-### Install
-
-```bash
-git clone https://github.com/YojinHQ/Yojin.git
-cd Yojin
-pnpm install
-pnpm chat
-```
+Yojin runs locally on your computer. [Download the desktop app](https://yojin.ai/) to get started.
 
 On first launch, Yojin bootstraps itself: connects an LLM provider and generates a personalized Strategist persona based on your investment style. No manual config files needed.
 
-## Channels
+## Where you can use Yojin
 
-| Channel   | Status                            |
-|-----------|-----------------------------------|
-| Web UI    | Working (Hono + GraphQL + SSE)    |
-| MCP / ACP | Working (Claude Desktop / Cursor) |
-| Telegram  | Working (grammY)                  |
-| Discord   | Planned                           |
-
-## Tech Stack
-
-- **TypeScript** — strict mode, ESM, Node.js 22.12+
-- **Anthropic SDK** — Claude as the default AI provider
-- **Hono + graphql-yoga** — Web server and GraphQL API with subscriptions
-- **Playwright** — browser automation for scraping investment platforms
-- **React 19** — Web UI with Vite, Tailwind CSS 4
-- **Zod** — schema validation for all external data
-- **pnpm** — package manager
-
-## Contributing
-
-We welcome contributions. See [CONTRIBUTING.md](https://github.com/YojinHQ/Yojin/blob/main/CONTRIBUTING.md) for guidelines.
+| Channel              | Status      |
+|----------------------|-------------|
+| Desktop app          | Available   |
+| Claude Desktop / Cursor (MCP / ACP) | Available   |
+| Slack                | Available   |
+| Telegram             | Coming soon |
 
 ## Security
 
-Report vulnerabilities via [SECURITY.md](https://github.com/YojinHQ/Yojin/blob/main/SECURITY.md).
-
-## License
-
-MIT — see [LICENSE](https://github.com/YojinHQ/Yojin/blob/main/LICENSE) for details.
+Report vulnerabilities to [security@yojin.ai](mailto:security@yojin.ai).
