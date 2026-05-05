@@ -3,7 +3,7 @@
 [![Website](https://img.shields.io/badge/yojin.ai-website-blue)](https://yojin.ai/)
 [![X (Twitter)](https://img.shields.io/badge/@YojinHQ-black?logo=x)](https://x.com/YojinHQ)
 
-A local-first AI agent that connects to your investment accounts, delivers personalized intelligence, monitors your portfolio 24/7, and executes trades — across every platform you use.
+An agentic co-pilot for traders that connects to your accounts, delivers personalized intelligence, monitors markets 24/7, and helps you place trades — across every platform you use.
 
 |                               |                                                                                                      |
 |-------------------------------|------------------------------------------------------------------------------------------------------|
@@ -18,7 +18,7 @@ Yojin is a multi-agent system built around a central **Orchestrator** that coord
 
 The **Orchestrator** is the entry point for every workflow — whether triggered by a user message, a scheduled digest, or a market event. It decides which agents to invoke, in what order or in parallel, and assembles their outputs into a coherent response or action.
 
-Everything runs on your machine. Your data stays in local files — no database, no cloud sync, no containers.
+Yojin runs as a desktop app on your computer. Portfolio data, sessions, and skills live in local files you can back up, sync, or audit yourself.
 
 ### Agents
 
@@ -27,17 +27,18 @@ Everything runs on your machine. Your data stays in local files — no database,
 | **Analyst**      | Ingests signals, runs technical analysis (SMA, RSI, BBANDS), extracts tickers from news. Maintains a self-evolving working memory — past analyses, recommendations, and their actual outcomes are stored and retrieved to inform every future decision. |
 | **Strategist**   | Owns the Brain (persona, working memory, emotions). Runs bull/bear debate analysis. Defines strategy — asset allocation, rebalancing rules, entry/exit logic tailored to your goals.                                                                                         |
 | **Risk Manager** | Analyzes exposure, concentration, correlation, drawdown. Monitors markets 24/7. Delivers alerts and daily portfolio digests.                                                                                                                                                 |
-| **Trader**       | Executes trades on target platforms (Robinhood, Coinbase, IBKR, Schwab, Binance, and more).                                                                                                                                                                                  |
+| **Trader**       | Tracks positions and prepares trade actions for user approval. Order execution is staged for V2.                                                                                                                                                                              |
 
 ```text
 ┌──────────────────────────────────────────────────────────────────────────┐
 │                              Your Machine                                │
 │                                                                          │
 │  ┌───────────────┐   ┌─────────────────┐   ┌───────────────┐           │
-│  │  Robinhood    │   │  AgentRuntime   │   │   Channels    │           │
-│  │  Coinbase     │──▶│  Orchestrator   │──▶│  Web / MCP    │           │
-│  │  IBKR/Schwab  │   │  (staged)      │   │  ACP / Slack  │           │
-│  │  Binance/...  │   └───────┬────────┘   └───────────────┘           │
+│  │   Connected   │   │  AgentRuntime   │   │   Channels    │           │
+│  │   accounts    │──▶│  Orchestrator   │──▶│  Web / MCP    │           │
+│  │  (brokers,    │   │   (staged)      │   │  ACP / Slack  │           │
+│  │   exchanges,  │   │                 │   │  TG / WA      │           │
+│  │   wallets)    │   └───────┬─────────┘   └───────────────┘           │
 │  └───────────────┘           │                                          │
 │                              ▼                                          │
 │               ┌──────────────────────────────┐                          │
@@ -81,7 +82,7 @@ Everything runs on your machine. Your data stays in local files — no database,
 
 ## Security & Privacy
 
-Your credentials, positions, and account details are stored and processed on your computer — not on our servers, not in the cloud. Sensitive data is scrubbed before it reaches the AI model.
+Your credentials live on your machine in an encrypted vault. PII is redacted from every external API call before it leaves your device, and irreversible actions always require your explicit approval.
 
 - **Credential Vault** — API keys and credentials are stored in a local encrypted vault. The vault never makes network requests. Credentials are injected at the transport layer and never appear in AI prompts.
 - **Guard Pipeline** — Deterministic, code-based security rules with binary outcomes. The AI cannot persuade, interpret, or work around them. Every decision is written to a tamper-evident audit log.
